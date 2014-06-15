@@ -26,4 +26,14 @@ public class SelectUtils {
             return null;
     }
     
+    public static File selectFile() {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int returnVal = chooser.showOpenDialog(null);
+        
+        if(returnVal == JFileChooser.APPROVE_OPTION)
+            return chooser.getSelectedFile();
+        else
+            return null;
+    }
 }

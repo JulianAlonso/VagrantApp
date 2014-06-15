@@ -9,7 +9,7 @@ package vagrantapp;
 import Exceptions.ListPanelNullException;
 import Exceptions.WorkbenchNotFoundException;
 import Graphics.VagrantApp.MainFrame;
-import Graphics.VagrantApp.SelectWorkbenchDialog;
+import Graphics.VagrantApp.Dialogs.SelectWorkbenchDialog;
 import Threads.LoadBoxesThread;
 import java.awt.Dimension;
 import java.io.File;
@@ -40,13 +40,8 @@ public class VagrantApp {
         VagrantApp.workbench = selectWorkbenchDialog.getWorkbench();
         
         mainFrame.setVisible(true);
-        try {
-            loadBoxesThread = new LoadBoxesThread(workbench, mainFrame.getListPanel());
-            loadBoxesThread.start();
-        } catch (WorkbenchNotFoundException ex) {
-            Logger.getLogger(VagrantApp.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
+        startLoadBoxesThread();
     }
     
     private static void initComponents() {
@@ -55,8 +50,17 @@ public class VagrantApp {
     }
     
     private static void configComponents() {
-        VagrantApp.mainFrame.setSize(new Dimension(400, 900));
+        VagrantApp.mainFrame.setSize(new Dimension(1200, 900));
         VagrantApp.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+    
+    public static void startLoadBoxesThread() throws ListPanelNullException {
+        try {
+            loadBoxesThread = new LoadBoxesThread(workbench, mainFrame.getListPanel());
+            loadBoxesThread.start();
+        } catch (WorkbenchNotFoundException ex) {
+            Logger.getLogger(VagrantApp.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }

@@ -24,7 +24,11 @@ public final class ButtonFactory {
     public static final int PLAY = 0;
     public static final int PAUSE = 1;
     public static final int STOP = 2;
-    public static final int BOX_ADD = 3;
+    public static final int NEW_MACHINE = 3;
+    public static final int PACKAGE = 4;
+    public static final int BOX_ADD = 5;
+    public static final int DELETE_MACHINE = 6;
+    public static final int RELOAD = 7;
 
     public static Button getButton(int type) {
         Button button = null;
@@ -48,9 +52,31 @@ public final class ButtonFactory {
                 button.setEnabled(false);
                 break;
             case 3:
-                button = new Button(Images.ADD_BOX);
-                button.addMouseListener(addBox());
+                button = new Button(Images.NEW_MACHINE);
+                button.addMouseListener(newMachine());
+                button.setName(ButtonName.NEW_MACHINE);
+                break;
+            case 4:
+                button = new Button(Images.PACKAGE);
+                button.addMouseListener(packageV());
+                button.setName(ButtonName.PACKAGE);
+                button.setEnabled(false);
+                break;
+            case 5:
+                button = new Button(Images.BOX_ADD);
+                button.addMouseListener(boxAdd());
                 button.setName(ButtonName.BOX_ADD);
+                break;
+            case 6:
+                button = new Button(Images.DELETE_MACHINE);
+                button.addMouseListener(deleteMachine());
+                button.setName(ButtonName.DELETE_MACHINE);
+                break;
+            case 7:
+                button = new Button(Images.RELOAD);
+                button.addMouseListener(reload());
+                button.setName(ButtonName.RELOAD);
+                button.setEnabled(false);
                 break;
         }
         return button;
@@ -87,13 +113,48 @@ public final class ButtonFactory {
         };
     }
     
-    public static MouseListener addBox() {
+    public static MouseListener newMachine() {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                ButtonFactory.buttonsController.addBox();
+                ButtonFactory.buttonsController.newMachine();
             }
         };
     }
     
+    public static MouseListener packageV() {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ButtonFactory.buttonsController.packageV();
+            }
+        };
+    }
+    
+    public static MouseListener boxAdd() {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ButtonFactory.buttonsController.boxAdd();
+            }
+        };
+    }
+    
+    public static MouseListener deleteMachine() {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ButtonFactory.buttonsController.deleteMachine();
+            }
+        };
+    }
+    
+    public static MouseListener reload() {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ButtonFactory.buttonsController.reload();
+            }
+        };
+    }
 }

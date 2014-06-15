@@ -39,6 +39,7 @@ public class ListView <T> extends JPanel {
         this.list.add(t);
         this.add((Component) t);
         this.repaint();
+        this.refresh();
     }
     
     public synchronized void refresh() {
@@ -48,13 +49,21 @@ public class ListView <T> extends JPanel {
         this.repaint();
     }
     
-    public synchronized void remove(T t) {
+    public synchronized void removeItem(T t) {
         for(T item: list) {
             if (item == t) {
                 list.remove(t);
+                this.remove((Component)t);
+                this.repaint();
+                this.refresh();
                 return;
             }
         }
+    }
+    
+    public synchronized void removeAllItems() {
+        this.removeAll();
+        this.list.clear();
     }
     
     public List<T> getItems() {

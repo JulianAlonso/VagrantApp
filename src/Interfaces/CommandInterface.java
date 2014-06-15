@@ -22,6 +22,6 @@ public interface CommandInterface {
     
     public void setScript(File script);
     
-    public OutputMap ejecutar() throws IOException, ScriptNotFoundException;
+    public OutputMap execute() throws IOException, ScriptNotFoundException;
     
 }

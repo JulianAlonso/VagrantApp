@@ -1,0 +1,7 @@
+#!/bin/bash
+
+FILE=$1;
+NAME=$2;
+
+vagrant box add $NAME $FILE;
+

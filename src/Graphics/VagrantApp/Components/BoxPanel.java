@@ -9,12 +9,11 @@ package Graphics.VagrantApp.Components;
 import Entity.Box;
 import Exceptions.BoxNotFoundException;
 import Res.Images.Images;
-import Res.Status;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.MouseListener;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -71,6 +70,11 @@ public class BoxPanel extends JPanel {
     
     public Box getBox() {
         return this.box;
+    }
+    
+    public void setImage(ImageIcon imageIcon) {
+        this.image = new JLabel(imageIcon);
+        this.repaint();
     }
     
     private void initComponents() {

@@ -5,9 +5,16 @@
  */
 package Controllers;
 
+import Entity.Destiny;
+import Factory.CommandFactory;
 import Graphics.VagrantApp.Components.ButtonsPanel;
+import Graphics.VagrantApp.Dialogs.SelectBoxDialog;
+import Graphics.VagrantApp.Dialogs.SelectDestinyDialog;
 import Res.ButtonName;
+import Res.Orders;
 import Res.Status;
+import Utils.ArgsUtils;
+import java.util.ArrayList;
 
 /**
  *
@@ -24,19 +31,35 @@ public class ButtonsController {
     }
 
     public void play() {
-        System.out.println("play()");
+        if (this.mainController.getSelectedPanel().getBox().getStatus() == Status.PAUSED)
+            CommandFactory.createAndExecuteCommand(this.mainController.getSelectedPanel(), Orders.RESUME, new ArrayList());
+        else
+            CommandFactory.createAndExecuteCommand(this.mainController.getSelectedPanel(), Orders.UP, new ArrayList());
+        this.mainController.changeActualStatus(Status.RUNNING);
     }
 
     public void pause() {
-        System.out.println("pause()");
+        this.mainController.changeActualStatus(Status.PAUSED);
+        CommandFactory.createAndExecuteCommand(this.mainController.getSelectedPanel(), Orders.SUSPEND, new ArrayList());
     }
 
     public void stop() {
-        System.out.println("stop()");
+        this.mainController.changeActualStatus(Status.STOPED);
+        CommandFactory.createAndExecuteCommand(this.mainController.getSelectedPanel(), Orders.DESTROY, new ArrayList());
     }
-
-    public void addBox() {
-        System.out.println("addBox()");
+    
+    public void packageV() {
+        SelectDestinyDialog dialog = new SelectDestinyDialog(true);
+        dialog.setVisible(true);
+        Destiny destiny = dialog.getDestiny();
+        CommandFactory.createAndExecuteCommand(this.mainController.getSelectedPanel(), Orders.PACKAGE, ArgsUtils.getArgs(destiny));
+    }
+    
+    public void newMachine() {
+        SelectDestinyDialog dialog = new SelectDestinyDialog(false);
+        dialog.setVisible(true);
+        Destiny destiny = dialog.getDestiny();
+        CommandFactory.createAndExecuteCommand(null, Orders.NEW_MACHINE, ArgsUtils.getArgs(destiny));
     }
     
     public void configButtons(Status status) {
@@ -44,15 +67,33 @@ public class ButtonsController {
         this.disableButtons(status);
     }
     
+    public void boxAdd() {
+        SelectBoxDialog dialog = new SelectBoxDialog();
+        dialog.setVisible(true);
+        Destiny destiny = dialog.getDestiny();
+        CommandFactory.createAndExecuteCommand(null, Orders.BOX_ADD, ArgsUtils.getArgs(destiny));
+    }
+    
+    public void deleteMachine() {
+        CommandFactory.createAndExecuteCommand(this.mainController.getSelectedPanel(), Orders.DELETE_MACHINE, new ArrayList());
+    }
+    
+    public void reload() {
+        CommandFactory.createAndExecuteCommand(this.mainController.getSelectedPanel(), Orders.RELOAD, new ArrayList());
+    }
+     
     private void enableButtons(Status status) {
         switch(status) {
             case RUNNING:
                 buttonsPanel.getButton(ButtonName.STOP).setEnabled(true);
                 buttonsPanel.getButton(ButtonName.PAUSE).setEnabled(true);
+                buttonsPanel.getButton(ButtonName.RELOAD).setEnabled(true);
+                buttonsPanel.getButton(ButtonName.PACKAGE).setEnabled(true);
                 break;
             case PAUSED:
             case STOPED:
                 buttonsPanel.getButton(ButtonName.PLAY).setEnabled(true);
+                buttonsPanel.getButton(ButtonName.PACKAGE).setEnabled(true);
                 break;
         }
     }
@@ -66,11 +107,14 @@ public class ButtonsController {
             case STOPED:
                 buttonsPanel.getButton(ButtonName.STOP).setEnabled(false);
                 buttonsPanel.getButton(ButtonName.PAUSE).setEnabled(false);
+                buttonsPanel.getButton(ButtonName.RELOAD).setEnabled(false);
                 break;
             case NOT_SELECTED:
                 buttonsPanel.getButton(ButtonName.PLAY).setEnabled(false);
                 buttonsPanel.getButton(ButtonName.STOP).setEnabled(false);
                 buttonsPanel.getButton(ButtonName.PAUSE).setEnabled(false);
+                buttonsPanel.getButton(ButtonName.RELOAD).setEnabled(false);
+                buttonsPanel.getButton(ButtonName.PACKAGE).setEnabled(false);
                 break;
         }
     }

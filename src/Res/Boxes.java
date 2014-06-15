@@ -35,4 +35,7 @@ public final class Boxes {
         Boxes.remove(name);
     }
     
+    public static synchronized void removeAll() {
+        Boxes.clear();
+    }
 }

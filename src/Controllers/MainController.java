@@ -8,6 +8,7 @@ package Controllers;
 
 import Graphics.VagrantApp.Components.BoxPanel;
 import Graphics.VagrantApp.Components.ButtonsPanel;
+import Graphics.VagrantApp.Components.FilePanel;
 import Graphics.VagrantApp.Components.ListPanel;
 import Res.Status;
 import java.awt.Color;
@@ -20,13 +21,19 @@ public class MainController {
     
     private ButtonsController buttonsController;
     private BoxPanelController boxPanelController;
+    private FileController fileController; 
     private BoxPanel selectedPanel;
     
-    public MainController(ButtonsPanel buttonsPanel, ListPanel listPanel) {
+    public MainController(ButtonsPanel buttonsPanel, ListPanel listPanel, FilePanel filePanel) {
         
         this.buttonsController = new ButtonsController(buttonsPanel, this);
         this.boxPanelController = new BoxPanelController(listPanel, this);
+        this.fileController = new FileController(filePanel, this);
         
+    }
+
+    public FileController getFileController() {
+        return fileController;
     }
     
     public ButtonsController getButtonsController() {
@@ -35,6 +42,15 @@ public class MainController {
     
     public BoxPanelController getBoxPanelController() {
         return this.boxPanelController;
+    }
+    
+    public BoxPanel getSelectedPanel() {
+        return this.selectedPanel;
+    }
+    
+    public void changeActualStatus(Status status) {
+        this.selectedPanel.getBox().setStatus(status);
+        this.configButtons();
     }
     
     public void configButtons() {

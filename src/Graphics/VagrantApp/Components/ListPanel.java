@@ -9,6 +9,7 @@ package Graphics.VagrantApp.Components;
 import Entity.ListView;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.List;
 import javax.swing.JPanel;
 
 /**
@@ -25,13 +26,22 @@ public class ListPanel extends JPanel {
         this.add(this.listView);
     }
     
-    public void add(BoxPanel box) {
-        this.listView.add(box);
+    public void addItem(BoxPanel box) {
+        this.listView.addItem(box);
         this.listView.repaint();    
     }
     
-    public void remove(BoxPanel box) {
-        this.listView.remove(box);
+    public void removeAllItems() {
+        this.listView.removeAllItems();
+    }
+    
+    public void removeItem(BoxPanel box) {
+        this.listView.removeItem(box);
+        this.listView.repaint();
+    }
+    
+    public List<BoxPanel> getAll() {
+        return this.listView.getItems();
     }
     
     public void refresh() {

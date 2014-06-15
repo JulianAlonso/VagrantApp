@@ -1,0 +1,9 @@
+#!/bin/bash
+DIR=$1;
+NAME=$2;
+
+cd $DIR;
+mkdir $NAME;
+cd $NAME;
+
+vagrant init;

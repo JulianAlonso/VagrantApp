@@ -10,6 +10,7 @@ import Controllers.MainController;
 import Factory.ButtonFactory;
 import Factory.PanelFactory;
 import Graphics.VagrantApp.Components.ButtonsPanel;
+import Graphics.VagrantApp.Components.FilePanel;
 import Graphics.VagrantApp.Components.ListPanel;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
@@ -28,6 +29,7 @@ public class MainFrame extends JFrame {
     private ButtonsPanel buttonsPanel;
     private ListPanel listPanel;
     private JScrollPane list;
+    private FilePanel filePanel;
     private MainController mainController;
     
     public MainFrame() {
@@ -52,10 +54,18 @@ public class MainFrame extends JFrame {
         c.gridx = 1;
         c.gridy = 1;
         c.gridwidth = 5;
-        c.gridheight = 12;
+        c.gridheight = 10;
         c.ipadx = 1;
         c.ipady = 1;
-        this.add(this.list, BorderLayout.CENTER);
+        this.add(this.list, BorderLayout.WEST);
+        
+        c.gridx = 1;
+        c.gridy = 6;
+        c.gridwidth = 7;
+        c.gridheight = 10;
+        c.ipadx = 0;
+        c.ipady = 0;
+        this.add(this.filePanel, BorderLayout.CENTER);
     }
     
     public ListPanel getListPanel() {
@@ -65,20 +75,27 @@ public class MainFrame extends JFrame {
     private void initComponents() {
         this.buttonsPanel = new ButtonsPanel();
         this.listPanel = new ListPanel();
-        this.list = new JScrollPane(this.listPanel);
+        this.list = new JScrollPane(listPanel);
+        this.filePanel = new FilePanel();
     }
     
     private void initControllers() {
-        mainController = new MainController(this.buttonsPanel, this.listPanel);
+        mainController = new MainController(this.buttonsPanel, this.listPanel, this.filePanel);
         ButtonFactory.setButtonsController(mainController.getButtonsController());
         PanelFactory.setBoxPanelController(mainController.getBoxPanelController());
+        this.filePanel.setFileController(mainController.getFileController());
     }
     
     private void loadButtons() {
         this.buttonsPanel.addButton(ButtonFactory.getButton(ButtonFactory.PLAY));
         this.buttonsPanel.addButton(ButtonFactory.getButton(ButtonFactory.PAUSE));
         this.buttonsPanel.addButton(ButtonFactory.getButton(ButtonFactory.STOP));
+        this.buttonsPanel.addButton(ButtonFactory.getButton(ButtonFactory.RELOAD));
+        this.buttonsPanel.addButton(ButtonFactory.getButton(ButtonFactory.PACKAGE));
         this.buttonsPanel.addButton(ButtonFactory.getButton(ButtonFactory.BOX_ADD));
+        this.buttonsPanel.addButton(ButtonFactory.getButton(ButtonFactory.NEW_MACHINE));
+        this.buttonsPanel.addButton(ButtonFactory.getButton(ButtonFactory.DELETE_MACHINE));
+        
     }
     
     private void configComponents() {

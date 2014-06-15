@@ -23,6 +23,7 @@ public class Command implements CommandInterface{
     private OutputMap output;
     private File script;
     private List<String> args;
+    private String message;
     
     public Command() {
         output = new OutputMap();
@@ -37,15 +38,28 @@ public class Command implements CommandInterface{
     public void setScript(File script) {
         this.script = script;
     }
-
+    
+    public void setMessage(String message) {
+        this.message = message;
+    }
+    
+    public String getMessage() {
+        return this.message;
+    }
+    
     @Override
-    public OutputMap ejecutar() throws IOException, ScriptNotFoundException {
+    public OutputMap execute() throws IOException, ScriptNotFoundException {
         
         if (script == null || !script.exists()) {
             throw new ScriptNotFoundException();
         }
         
-        ProcessBuilder pb = new ProcessBuilder("/bin/sh " + script.getAbsolutePath() + args);
+        List<String> list = new ArrayList();
+        list.add("/bin/sh");
+        list.add(script.getAbsolutePath());
+        list.addAll(args);
+        
+        ProcessBuilder pb = new ProcessBuilder(list);
         Process p = pb.start();
         
         BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));

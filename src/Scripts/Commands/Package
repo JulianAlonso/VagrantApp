@@ -1,0 +1,6 @@
+#!/bin/bash
+DIR=$1
+DESTINY=$2
+NAME=$3
+cd $DIR;
+vagrant package --output $DESTINY/$NAME;
